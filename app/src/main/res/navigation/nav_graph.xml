@@ -9,7 +9,11 @@
         android:id="@+id/homeScreenFragment"
         android:name="com.example.themoviedb.ui.home.HomeScreenFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_main_screen" />
+        tools:layout="@layout/fragment_main_screen" >
+        <action
+            android:id="@+id/next_action"
+            app:destination="@id/detailsScreenFragment" />
+    </fragment>
     <fragment
         android:id="@+id/detailsScreenFragment"
         android:name="com.example.themoviedb.ui.details.DetailsScreenFragment"
