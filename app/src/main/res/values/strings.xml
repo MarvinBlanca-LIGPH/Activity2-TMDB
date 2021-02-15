@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">The Movie DB</string>
+    <string name="error">Unknown Error. Try Again Later</string>
+    <string name="title">Title:</string>
+    <string name="sample_title">A Movie Title Sample</string>
+    <string name="release_date">Release Date:</string>
+    <string name="sample_date">January 01, 2021</string>
+    <string name="genre">Genre:</string>
+    <string name="sample_genre">Action, Comedy, Romance</string>
+    <string name="overview">Overview:</string>
+    <string name="sample_overview">The quick brown fox jumps over the lazy dog. Dog lazy the over jumps fox brown quick the.</string>
+    <string-array name="categories">
+        <item>Popular</item>
+        <item>Top Rated</item>
+        <item>Upcoming</item>
+    </string-array>
 </resources>
