@@ -10,9 +10,8 @@ import com.example.themoviedb.databinding.ItemListBinding
 
 class HomeScreenAdapter : RecyclerView.Adapter<HomeScreenAdapter.ViewHolder>() {
     private lateinit var context: Context
-    private var movieDetails = ArrayList<MovieDetails>()
-    private lateinit var movieList: MovieList
-    private var imagesArray = ArrayList<String>()
+    private var movieDetails = arrayListOf<MovieDetails>()
+    private var imagesArray = arrayListOf<String>()
 
     companion object {
         var itemClicked: ((movieDetails: MovieDetails) -> Unit)? = null
@@ -32,8 +31,7 @@ class HomeScreenAdapter : RecyclerView.Adapter<HomeScreenAdapter.ViewHolder>() {
     }
 
     fun updateItems(movieList: MovieList) {
-        this.movieList = movieList
-        this.movieList.results.forEach { details ->
+        movieList.results.forEach { details ->
             movieDetails.add(details)
             imagesArray.add(details.poster_path)
         }
