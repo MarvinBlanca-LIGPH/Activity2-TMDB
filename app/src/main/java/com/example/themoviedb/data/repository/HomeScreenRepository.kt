@@ -8,8 +8,8 @@ class HomeScreenRepository {
     suspend fun getMovies(filter: String?, page: Int): Response<MovieList> {
         return when (filter) {
             "Popular" -> RetrofitBuilder.getMovieList().getPopularMovies(page)
-            "Top Rated" -> RetrofitBuilder.getMovieList().getTopRatedMovies()
-            else -> RetrofitBuilder.getMovieList().getUpcomingMovies()
+            "Top Rated" -> RetrofitBuilder.getMovieList().getTopRatedMovies(page)
+            else -> RetrofitBuilder.getMovieList().getUpcomingMovies(page)
         }
     }
 }

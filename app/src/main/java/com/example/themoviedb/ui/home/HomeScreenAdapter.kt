@@ -5,14 +5,14 @@ import android.content.res.Resources
 import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.themoviedb.data.model.MovieDetails
-import com.example.themoviedb.data.model.MovieList
+import com.example.themoviedb.data.model.*
 import com.example.themoviedb.databinding.ItemListBinding
 
 class HomeScreenAdapter : RecyclerView.Adapter<HomeScreenAdapter.ViewHolder>() {
     private lateinit var context: Context
-    private lateinit var _movieList: MovieList
-    private var _imagesArray = ArrayList<String>()
+    private var movieDetails = ArrayList<MovieDetails>()
+    private lateinit var movieList: MovieList
+    private var imagesArray = ArrayList<String>()
 
     companion object {
         var itemClicked: ((movieDetails: MovieDetails) -> Unit)? = null
@@ -24,29 +24,37 @@ class HomeScreenAdapter : RecyclerView.Adapter<HomeScreenAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(_imagesArray[position], _movieList.results[position], context)
+        holder.bind(imagesArray[position], movieDetails, position, context)
     }
 
     override fun getItemCount(): Int {
-        return _imagesArray.size
+        return imagesArray.size
     }
 
     fun updateItems(movieList: MovieList) {
-        _movieList = movieList
-        _movieList.results.forEach {
-            _imagesArray.add(it.poster_path)
+        this.movieList = movieList
+        this.movieList.results.forEach { details ->
+            movieDetails.add(details)
+            imagesArray.add(details.poster_path)
         }
         notifyDataSetChanged()
     }
 
     fun deleteItems() {
-        _imagesArray = arrayListOf()
+        movieDetails = arrayListOf()
+        imagesArray = arrayListOf()
         notifyDataSetChanged()
     }
 
     class ViewHolder(private val binding: ItemListBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(image: String, movieDetails: MovieDetails, context: Context) {
+        fun bind(
+            image: String,
+            movieDetails: ArrayList<MovieDetails>,
+            position: Int,
+            context: Context
+        ) {
             val posterImage = "https://image.tmdb.org/t/p/original$image"
+
             binding.imageProgress.visibility = View.VISIBLE
             Glide.with(context)
                 .load(posterImage)
@@ -59,7 +67,7 @@ class HomeScreenAdapter : RecyclerView.Adapter<HomeScreenAdapter.ViewHolder>() {
             binding.imageProgress.visibility = View.GONE
 
             binding.cardView.setOnClickListener {
-                itemClicked?.invoke(movieDetails)
+                itemClicked?.invoke(movieDetails[position])
             }
         }
 
