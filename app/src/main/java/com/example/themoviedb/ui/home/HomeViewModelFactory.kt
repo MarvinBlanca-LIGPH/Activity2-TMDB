@@ -1,7 +1,6 @@
 package com.example.themoviedb.ui.home
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 
 class HomeViewModelFactory(
     private val fragment: HomeScreenFragment

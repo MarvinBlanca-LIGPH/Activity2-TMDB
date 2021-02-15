@@ -9,6 +9,8 @@
     <string name="sample_genre">Action, Comedy, Romance</string>
     <string name="overview">Overview:</string>
     <string name="sample_overview">The quick brown fox jumps over the lazy dog. Dog lazy the over jumps fox brown quick the.</string>
+    <string name="default_notification_channel_id">The Movie DB</string>
+    <string name="default_notification_channel_name">com.example.themoviedb</string>
     <string-array name="categories">
         <item>Popular</item>
         <item>Top Rated</item>

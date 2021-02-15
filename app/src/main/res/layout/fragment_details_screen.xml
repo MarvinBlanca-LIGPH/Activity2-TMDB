@@ -38,8 +38,8 @@
                 android:gravity="center"
                 android:padding="5dp"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@id/constraint_two"
                 app:layout_constraintStart_toStartOf="@id/constraint_two"
                 app:layout_constraintTop_toTopOf="@id/constraint_two"
@@ -73,11 +73,11 @@
 
         <TextView
             android:id="@+id/overview_label"
+            style="@style/labels"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/overview"
-            style="@style/labels"
             app:layout_constraintEnd_toEndOf="@+id/movie_poster"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/movie_poster"
@@ -85,16 +85,16 @@
 
         <TextView
             android:id="@+id/overview_text"
+            style="@style/texts"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
-            tools:text="@string/sample_overview"
-            style="@style/texts"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/overview_label"
-            app:layout_constraintTop_toBottomOf="@+id/overview_label" />
+            app:layout_constraintTop_toBottomOf="@+id/overview_label"
+            tools:text="@string/sample_overview" />
 
         <TextView
             android:id="@+id/title_text"
@@ -127,11 +127,11 @@
             android:layout_width="wrap_content"
             android:layout_height="230dp"
             android:scaleType="fitXY"
+            android:src="@drawable/movie_sample_poster"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/movie_sample_poster"
             tools:src="@tools:sample/backgrounds/scenic" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

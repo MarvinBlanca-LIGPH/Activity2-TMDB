@@ -9,13 +9,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.themoviedb.R
 import com.example.themoviedb.databinding.FragmentMainScreenBinding
+import com.example.themoviedb.util.PaginationListener
 import com.example.themoviedb.util.Status.*
 
 class HomeScreenFragment : Fragment() {
     private lateinit var binding: FragmentMainScreenBinding
     private lateinit var viewModel: HomeScreenViewModel
+    private lateinit var _layoutManager: GridLayoutManager
     private var homeScreenAdapter = HomeScreenAdapter()
     private var page = 1
+    private var pageSize = 20
+    private var lastPage = 1000
+    private var isLoading = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,42 +34,36 @@ class HomeScreenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val factory = HomeViewModelFactory(this)
         viewModel = ViewModelProvider(this, factory).get(HomeScreenViewModel::class.java)
+        _layoutManager = GridLayoutManager(activity, 2)
 
-        binding.recyclerView.apply {
-            adapter = homeScreenAdapter
-            layoutManager = GridLayoutManager(activity, 2)
-        }
-
+        initRecyclerView()
         initSpinner()
         onSelectSpinnerItem()
         observers()
     }
 
-    private fun observers() {
-        viewModel.resource.observe(viewLifecycleOwner, {
-            it?.let { resource ->
-                when (resource.status) {
-                    SUCCESS -> {
-                        binding.loadingView.visibility = View.GONE
-                        resource.data?.let { movieList ->
-                            page = movieList.page
-                            homeScreenAdapter.updateItems(movieList)
-                        }
-                    }
-                    ERROR -> {
-                        binding.loadingView.visibility = View.GONE
-                        Toast.makeText(
-                            activity,
-                            resource.message ?: resources.getString(R.string.error),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                    LOADING -> {
-                        binding.loadingView.visibility = View.VISIBLE
-                    }
+    private fun initRecyclerView() {
+        binding.recyclerView.apply {
+            adapter = homeScreenAdapter
+            layoutManager = _layoutManager
+            addOnScrollListener(object :
+                PaginationListener(_layoutManager, pageSize) {
+                override fun loadMore() {
+                    viewModel.page = page + 1
+                    isLoading = true
+                    viewModel.callMovies()
                 }
-            }
-        })
+
+                override fun isLastPage(): Boolean {
+                    return page == lastPage
+                }
+
+                override fun isLoading(): Boolean {
+                    return isLoading
+                }
+
+            })
+        }
     }
 
     private fun initSpinner() {
@@ -96,5 +95,38 @@ class HomeScreenFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }
+    }
+
+    private fun observers() {
+        viewModel.resource.observe(viewLifecycleOwner, {
+            it?.let { resource ->
+                when (resource.status) {
+                    SUCCESS -> {
+                        binding.loadingView.visibility = View.GONE
+                        resource.data?.let { movieList ->
+                            page = movieList.page
+                            pageSize = movieList.results.size
+                            lastPage = movieList.total_pages
+                            viewModel.lastPage = lastPage
+                            homeScreenAdapter.updateItems(movieList)
+                        }
+                        isLoading = false
+                    }
+                    ERROR -> {
+                        binding.loadingView.visibility = View.GONE
+                        Toast.makeText(
+                            activity,
+                            resource.message ?: resources.getString(R.string.error),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        isLoading = false
+                    }
+                    LOADING -> {
+                        binding.loadingView.visibility = View.VISIBLE
+                        isLoading = true
+                    }
+                }
+            }
+        })
     }
 }

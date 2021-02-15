@@ -29,5 +29,4 @@ object RetrofitBuilder {
             .build()
             .create(ApiInterface::class.java)
     }
-
 }
